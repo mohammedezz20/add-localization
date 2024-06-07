@@ -16,13 +16,20 @@ function extractText() {
                     const extractedTexts = extractTextsFromText(text);
                     allTexts.push({ [fileName]: extractedTexts });
 
-                    const jsonFilePath = path.join(vscode.workspace.rootPath, 'extracted_texts.json');
+                    const jsonDirPath = path.join(vscode.workspace.rootPath, 'lib', 'add_localization');
+                    const jsonFilePath = path.join(jsonDirPath, 'extracted_texts.json');
+
+                    // Ensure the directory exists or create it
+                    if (!fs.existsSync(jsonDirPath)) {
+                        fs.mkdirSync(jsonDirPath, { recursive: true });
+                    }
+
                     fs.writeFileSync(jsonFilePath, JSON.stringify(allTexts, null, 2), 'utf8');
                 }
             });
         });
 
-        vscode.window.showInformationMessage(`Text extraction complete! Extracted texts are saved to extracted_texts.json`);
+        vscode.window.showInformationMessage(`Text extraction complete! Extracted texts are saved to lib/add_localization/extracted_texts.json`);
     });
 }
 
@@ -36,12 +43,12 @@ function containsStatefulOrStatelessWidget(text) {
 function extractTextsFromText(text) {
     const regexes = {
         Text: /Text\(["']([^"']+)["']/g,
-        Text_Field_Hint: /TextField\([\s\S]*?decoration\s*:\s*InputDecoration\([\s\S]*?hintText\s*:\s*["']([^"']+)["']/g,
-        Text_Field_Label: /TextField\([\s\S]*?decoration\s*:\s*InputDecoration\([\s\S]*?labelText\s*:\s*["']([^"']+)["']/g,
-        Text_Field_Helper: /TextField\([\s\S]*?decoration\s*:\s*InputDecoration\([\s\S]*?helperText\s*:\s*["']([^"']+)["']/g,
-        Text_Form_Field_Hint: /TextFormField\([\s\S]*?decoration\s*:\s*InputDecoration\([\s\S]*?hintText\s*:\s*["']([^"']+)["']/g,
-        Text_Form_Field_Label: /TextFormField\([\s\S]*?decoration\s*:\s*InputDecoration\([\s\S]*?labelText\s*:\s*["']([^"']+)["']/g,
-        Text_Form_Field_Helper: /TextFormField\([\s\S]*?decoration\s*:\s*InputDecoration\([\s\S]*?helperText\s*:\s*["']([^"']+)["']/g,
+        TextFieldHint: /TextField\([\s\S]*?decoration\s*:\s*InputDecoration\([\s\S]*?hintText\s*:\s*["']([^"']+)["']/g,
+        TextFieldLabel: /TextField\([\s\S]*?decoration\s*:\s*InputDecoration\([\s\S]*?labelText\s*:\s*["']([^"']+)["']/g,
+        TextFieldHelper: /TextField\([\s\S]*?decoration\s*:\s*InputDecoration\([\s\S]*?helperText\s*:\s*["']([^"']+)["']/g,
+        TextFormFieldHint: /TextFormField\([\s\S]*?decoration\s*:\s*InputDecoration\([\s\S]*?hintText\s*:\s*["']([^"']+)["']/g,
+        TextFormFieldLabel: /TextFormField\([\s\S]*?decoration\s*:\s*InputDecoration\([\s\S]*?labelText\s*:\s*["']([^"']+)["']/g,
+        TextFormFieldHelper: /TextFormField\([\s\S]*?decoration\s*:\s*InputDecoration\([\s\S]*?helperText\s*:\s*["']([^"']+)["']/g,
         RichText: /RichText\([\s\S]*?text\s*:\s*TextSpan\([\s\S]*?text\s*:\s*["']([^"']+)["']/g,
         TextSpan: /TextSpan\([\s\S]*?text\s*:\s*["']([^"']+)["']/g,
         TextButton: /TextButton\([\s\S]*?child\s*:\s*Text\(["']([^"']+)["']/g,

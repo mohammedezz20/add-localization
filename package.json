@@ -12,14 +12,19 @@
   "activationEvents": [
     "onCommand:add-localization.extractTexts",
     "onCommand:add-localization.createArb",
-    "onCommand:add-localization.replaceText"
+    "onCommand:add-localization.replaceText",
+    "onCommand:add-localization.initialize"
   ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
       {
+        "command": "extension.initialize",
+        "title": "Initialize Extension"
+    },
+      {
         "command": "add-localization.extractTexts",
-        "title": "Extract Texts from Flutter Text Widgets"
+        "title": "Extract Texts from Flutter Widgets"
       },
       {
         "command": "add-localization.createArb",
@@ -27,7 +32,7 @@
       },
       {
         "command": "add-localization.replaceText",
-        "title": "Replace Texts in ARB File"
+        "title": "Replace Texts in Flutter Widgets"
       }
     ]
   },
