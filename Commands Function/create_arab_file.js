@@ -100,7 +100,6 @@ function createArabFile() {
                         // Ensure the key does not end with a non-alphanumeric character
                         modifiedKey = modifiedKey.replace(/_+$/, '');
                         // Edit the all ( + , / , * , - ) characters with removing space before and after char if founded with (plus,slash,asterisk,minus)
-                        originalText = originalText.replace(/\+/g, '_plus_').replace(/\//g, '_slash_').replace(/\*/g, '_asterisk_').replace(/-/g, '_minus_').replace(/\./g, '_dot_');
                         originalText = removeSpacesBetweenBraces(originalText);
 
                         // If the key becomes empty or does not start with a letter, skip this entry
